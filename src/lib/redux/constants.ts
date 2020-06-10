@@ -1,0 +1,6 @@
+enum CONSTANTS {
+  SET_SESSION = "SET_SESSION",
+  SET_DATA = "SET_DATA"
+}
+
+export default CONSTANTS;
