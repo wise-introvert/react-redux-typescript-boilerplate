@@ -1,4 +1,4 @@
-### Boilerplate code for ReactJS projects using Typescript and Redux
+### ReactJS starter code using Typescript and Redux.
 
 ## Available Scripts
 
