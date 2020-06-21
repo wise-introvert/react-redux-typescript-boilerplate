@@ -57,12 +57,42 @@ export default class Network {
     return `${this.url}${this.subUrl}`;
   };
 
-  getConfig = async (): Promise<AxiosRequestConfig> => {
+  getConfig = (): AxiosRequestConfig => {
     return {
       withCredentials: true,
       headers: {
         ...this.config.headers,
       },
     };
+  };
+
+  post = async (config: AxiosRequestConfig): Promise<any> => {
+    return axios
+      .post(this.getUrl(), this.body, config)
+      .then((response: AxiosResponse) => {
+        return response.data;
+      })
+      .then((data: any) => {
+        this.onSuccess(data);
+      })
+      .catch((err: AxiosError) => {
+        console.log("error code: ", err?.response?.status);
+        this.onError(err.response?.data.message);
+      });
+  };
+
+  execute = async (
+    onSuccess: (data: any) => any,
+    onError: (error: string) => any,
+  ): Promise<any> => {
+    this.onSuccess = onSuccess;
+    this.onError = onError;
+    const config: AxiosRequestConfig = this.getConfig();
+    switch (this.method) {
+      case RequestMethod.POST:
+        return this.post(config);
+      default:
+        throw new Error("Invalid request method");
+    }
   };
 }

@@ -13,10 +13,10 @@ const Wrapper: React.FC<any> = (): React.ReactElement => {
       <Switch>
         <Route
           exact
-          route={[config.routes.landing, config.routes.home]}
-          component={Home}
+          route={[config.routes.login, config.routes.landing]}
+          component={Login}
         />
-        <Route exact route={config.routes.login} component={Login} />
+        <Route exact route={config.routes.home} component={Home} />
       </Switch>
     </Router>
   );

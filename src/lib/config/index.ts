@@ -5,7 +5,7 @@ const {
 export default {
   routes: {
     home: "/",
-    landing: "/",
+    landing: "/login",
     login: "/login",
   },
   constants: {
