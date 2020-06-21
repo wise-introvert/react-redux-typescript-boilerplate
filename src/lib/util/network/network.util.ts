@@ -81,6 +81,21 @@ export default class Network {
       });
   };
 
+  get = async (config: AxiosRequestConfig): Promise<any> => {
+    return axios
+      .get(this.getUrl(), config)
+      .then((response: AxiosResponse) => {
+        return response.data;
+      })
+      .then((data: any) => {
+        this.onSuccess(data);
+      })
+      .catch((err: AxiosError) => {
+        console.log("error code: ", err?.response?.status);
+        this.onError(err.response?.data.message);
+      });
+  };
+
   execute = async (
     onSuccess: (data: any) => any,
     onError: (error: string) => any,
@@ -91,6 +106,8 @@ export default class Network {
     switch (this.method) {
       case RequestMethod.POST:
         return this.post(config);
+      case RequestMethod.GET:
+        return this.get(config);
       default:
         throw new Error("Invalid request method");
     }

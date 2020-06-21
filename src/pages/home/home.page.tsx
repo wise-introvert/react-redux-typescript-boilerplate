@@ -11,6 +11,8 @@ import {
 import {Dispatch} from "redux";
 import {RouteComponentProps} from "react-router-dom";
 
+import * as modules from "./home.module";
+
 type Props = ReduxType & RouteComponentProps<any>;
 class Home extends React.Component<Props, any> {
   logout = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -20,6 +22,17 @@ class Home extends React.Component<Props, any> {
     auth.logout();
     this.props.history.push(config.routes.login);
   };
+
+  componentDidMount() {
+    modules.getStuff(
+      (response: any) => {
+        console.log("Victory!!!");
+      },
+      (error: string) => {
+        console.log("error: ", error);
+      },
+    );
+  }
 
   render() {
     return (
