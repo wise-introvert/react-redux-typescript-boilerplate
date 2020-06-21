@@ -2,10 +2,18 @@ import React from "react";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 
-import {RootState, ActionTypes, setSession, Session} from "../../lib/";
+import {
+  RootState,
+  ActionTypes,
+  setSession,
+  Session,
+  config,
+  Authentication,
+} from "../../lib/";
 import * as modules from "./login.module";
+import {RouteComponentProps} from "react-router-dom";
 
-type Props = ReduxType;
+type Props = ReduxType & RouteComponentProps<any>;
 type State = {
   username: string,
   password: string,
@@ -53,6 +61,10 @@ class Login extends React.Component<Props, State> {
     this.setState({
       loading: false,
     });
+
+    const auth: Authentication = new Authentication();
+    auth.login({...response});
+    this.props.history.push(config.routes.home);
   };
 
   onError = (error: string): void => {

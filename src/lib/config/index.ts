@@ -4,11 +4,13 @@ const {
 
 export default {
   routes: {
-    home: "/",
-    landing: "/login",
+    home: "/home",
+    splash: "/",
     login: "/login",
   },
   constants: {
-    baseUrl: NODE_ENV === 'development' ? "http://localhost:3001" : "https://production.url"
+    baseUrl: NODE_ENV === 'development' ? "http://localhost:3001" : "https://production.url",
+    rt: "refreshToken",
+    at: "authToken"
   }
 };

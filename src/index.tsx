@@ -6,17 +6,16 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {store, config} from "./lib/";
 import {Home, Login} from "./pages";
 import "./index.scss";
+import {ProtectedRoute} from "./components";
+import Splash from "./pages/splash/splash.page";
 
 const Wrapper: React.FC<any> = (): React.ReactElement => {
   return (
     <Router>
       <Switch>
-        <Route
-          exact
-          route={[config.routes.login, config.routes.landing]}
-          component={Login}
-        />
-        <Route exact route={config.routes.home} component={Home} />
+        <Route exact path={config.routes.splash} component={Splash} />
+        <ProtectedRoute exact path={config.routes.home} component={Home} />
+        <Route exact path={config.routes.login} component={Login} />
       </Switch>
     </Router>
   );
