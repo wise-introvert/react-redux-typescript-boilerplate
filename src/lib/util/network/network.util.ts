@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig} from "axios";
+import axios, {AxiosResponse, AxiosError, AxiosRequestConfig} from "axios";
 
 import {config, RequestMethod, Param} from "../../";
 
@@ -51,5 +51,18 @@ export default class Network {
       throw new Error("Request Payload should be a valid JSON object");
     }
     this.body = body;
+  };
+
+  getUrl = (): string => {
+    return `${this.url}${this.subUrl}`;
+  };
+
+  getConfig = async (): Promise<AxiosRequestConfig> => {
+    return {
+      withCredentials: true,
+      headers: {
+        ...this.config.headers,
+      },
+    };
   };
 }
