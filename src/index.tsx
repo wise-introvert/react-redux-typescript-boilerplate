@@ -15,8 +15,8 @@ const Wrapper: React.FC<any> = (): React.ReactElement => {
     <Router>
       <Switch>
         <Route exact path={config.routes.splash} component={Splash} />
-        <ProtectedRoute exact path={config.routes.home} component={Home} />
         <Route exact path={config.routes.login} component={Login} />
+        <ProtectedRoute exact path={config.routes.home} component={Home} />
       </Switch>
     </Router>
   );

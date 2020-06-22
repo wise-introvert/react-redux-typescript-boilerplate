@@ -70,6 +70,7 @@ class Login extends React.Component<Props, State> {
   onError = (error: string): void => {
     console.log(error);
     this.setState({
+      ...this.state,
       error,
       loading: false,
     });
@@ -90,6 +91,7 @@ class Login extends React.Component<Props, State> {
           <div>
             <label htmlFor={"username"}>Username</label>
             <input
+              value={this.state.username.length ? this.state.username : ""}
               onChange={this.onUsernameInput}
               name={"username"}
               type={"username"}
@@ -99,6 +101,7 @@ class Login extends React.Component<Props, State> {
             <label htmlFor={"password"}>Password</label>
             <input
               onChange={this.onPasswordInput}
+              value={this.state.password.length ? this.state.password : ""}
               name={"password"}
               type={"password"}
             />
