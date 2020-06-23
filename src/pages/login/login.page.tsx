@@ -12,6 +12,7 @@ import {
 } from "../../lib/";
 import * as modules from "./login.module";
 import {RouteComponentProps} from "react-router-dom";
+import {RegisterForm} from "./register.form";
 
 type Props = ReduxType & RouteComponentProps<any>;
 type State = {
@@ -19,13 +20,17 @@ type State = {
   password: string,
   loading: boolean,
   error: boolean | string,
+  message: boolean | string,
+  register: boolean,
 };
 class Login extends React.Component<Props, State> {
   state: State = {
     username: "",
     password: "",
     error: false,
+    message: false,
     loading: false,
+    register: false,
   };
 
   onUsernameInput = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -52,6 +57,58 @@ class Login extends React.Component<Props, State> {
       this.onSuccess,
       this.onError,
     );
+  };
+
+  validate = (password: string, confirmPassword: string): boolean | void => {
+    if (password.length < 8) {
+      this.setState({
+        error: "Password should have atleast 8 characters",
+        loading: false,
+      });
+    } else if (password !== confirmPassword) {
+      this.setState({error: "passwords do not match", loading: false});
+    } else {
+      return true;
+    }
+  };
+
+  onRegister = async (
+    e: React.FormEvent<HTMLFormElement>,
+    username: string,
+    password: string,
+    confirmPassword: string,
+    name: string,
+  ): Promise<any> => {
+    this.setState({
+      loading: true,
+      error: false,
+    });
+    if (this.validate(password, confirmPassword)) {
+      await modules.register(
+        e,
+        name,
+        username,
+        password,
+        this.onRegisterSuccess,
+        this.onError,
+      );
+    }
+  };
+
+  onRegisterSuccess = (response: any): void => {
+    console.log(response);
+    this.setState({
+      loading: false,
+      message: response.message,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        register: false,
+        error: false,
+        message: false,
+      });
+    }, 1000);
   };
 
   onSuccess = (response: any): void => {
@@ -85,6 +142,16 @@ class Login extends React.Component<Props, State> {
       );
     }
 
+    if (this.state.register) {
+      return (
+        <RegisterForm
+          onSubmit={this.onRegister}
+          message={this.state.message}
+          error={this.state.error}
+        />
+      );
+    }
+
     return (
       <>
         <form onSubmit={this.onSubmit}>
@@ -107,7 +174,18 @@ class Login extends React.Component<Props, State> {
             />
           </div>
           <div>
-            <input type={"submit"} value={"Submit"} />
+            <input type={"submit"} name={"login"} value={"Submit"} />
+            <input
+              type={"button"}
+              name={"register"}
+              onClick={e => {
+                console.log("Register clicked");
+                this.setState({
+                  register: true,
+                });
+              }}
+              value={"Register"}
+            />
           </div>
           {this.state.error && <small>{this.state.error}</small>}
         </form>
