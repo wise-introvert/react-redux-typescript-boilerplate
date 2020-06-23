@@ -145,6 +145,11 @@ class Login extends React.Component<Props, State> {
     if (this.state.register) {
       return (
         <RegisterForm
+          cancel={() => {
+            this.setState({
+              register: false,
+            });
+          }}
           onSubmit={this.onRegister}
           message={this.state.message}
           error={this.state.error}

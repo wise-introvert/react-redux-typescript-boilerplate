@@ -3,6 +3,7 @@ import * as React from "react";
 type Props = {
   error: boolean | string,
   message: boolean | string,
+  cancel: () => void,
   onSubmit: (
     e: React.FormEvent<HTMLFormElement>,
     username: string,
@@ -63,6 +64,12 @@ export const RegisterForm: React.FC<Props> = (
           />
         </div>
         <div>
+          <input
+            disabled={!!props.message}
+            onClick={props.cancel}
+            type={"submit"}
+            value={"Cancel"}
+          />
           <input disabled={!!props.message} type={"submit"} value={"Submit"} />
         </div>
         <ul>
